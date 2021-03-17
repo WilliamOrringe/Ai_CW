@@ -4,18 +4,24 @@ from Node import Node
 
 
 class Graph:
-    def __init__(self):
+    def __init__(self, start, goal, euclidean=False):
         self.open_nodes = []
         self.closed_nodes = []
         self.size = 3
+        self.start = Node(start, 0, 0, None)
+        self.goal = goal
+        self.euclidean = euclidean
 
     def manhattan_distance(self, start_index, final_index):
-        return abs((start_index / self.size) - (final_index / self.size)) + abs((start_index % self.size) -
-                                                                                (final_index % self.size))
+        return abs((start_index / self.size) - (final_index / self.size)) + abs(
+            (start_index % self.size) - (final_index % self.size)
+        )
 
     def euclidean_distance(self, start_index, final_index):
-        return math.sqrt(((final_index / self.size) - (start_index / self.size)) ** 2 + ((final_index % self.size) - (
-                start_index % self.size)) ** 2)
+        return math.sqrt(
+            ((final_index / self.size) - (start_index / self.size)) ** 2
+            + ((final_index % self.size) - (start_index % self.size)) ** 2
+        )
 
     def distance_to_goal(self, current, goal, euclidean):
         total = 0
@@ -27,7 +33,7 @@ class Graph:
         return total
 
     def find_f(self, current, goal):
-        return self.distance_to_goal(current.position, goal, False) + current.level
+        return self.distance_to_goal(current.position, goal, self.euclidean) + current.level
 
     def in_list(self, node_object: Node, nodes_list: list):
         for node in nodes_list:
@@ -56,32 +62,26 @@ class Graph:
         return path_list + [current_node]
 
     def a_star(self):
-        start = Node([7, 2, 4, 5, 0, 6, 8, 3, 1], 0, 0, None)
-        goal = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
-        self.open_nodes.append(start)
+        self.open_nodes.append(self.start)
         counter = 0
         while len(self.open_nodes) > 0:
             counter += 1
             self.open_nodes.sort()
             current_node = self.open_nodes.pop(0)
             self.closed_nodes.append(current_node)
-            if current_node.position == goal:
+            if current_node.position == self.goal:
                 print("Moves = " + str(current_node.level))
                 print("Iterations: ", counter - 1)
                 print("======")
                 path_list = self.find_route(current_node)
                 path_list.reverse()
-                for node in path_list:
-                    node.print_node()
-                    print()
-                    print()
-                return path_list
+                return path_list, counter - 1
             neighbours = current_node.get_neighbours()
             for neighbour in neighbours:
                 if self.in_list(neighbour, self.closed_nodes):
                     continue
-                neighbour.f = self.find_f(neighbour, goal)
+                neighbour.f = self.find_f(neighbour, self.goal)
                 if self.add_to_open(neighbour):
                     self.open_nodes.append(neighbour)
 

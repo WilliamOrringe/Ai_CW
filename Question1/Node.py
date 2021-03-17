@@ -17,7 +17,7 @@ class Node:
         for move in move_list:
             neighbour = self.make_move(self.position, move)
             if neighbour is not None:
-                neighbours.append(Node(neighbour, self.level+1, 0, self))
+                neighbours.append(Node(neighbour, self.level + 1, 0, self))
         return neighbours
 
     def create_copy(self, positions):
@@ -38,6 +38,6 @@ class Node:
 
     def print_node(self):
         for i in range(9):
-            print(str(self.position[i]) + str(" "), end='')
+            print(str(self.position[i]) + str(" "), end="")
             if i == 2 or i == 5:
                 print(" ")
