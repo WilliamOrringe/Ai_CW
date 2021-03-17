@@ -84,8 +84,3 @@ class Graph:
                 neighbour.f = self.find_f(neighbour, self.goal)
                 if self.add_to_open(neighbour):
                     self.open_nodes.append(neighbour)
-
-
-if __name__ == "__main__":
-    graph = Graph()
-    graph.a_star()
