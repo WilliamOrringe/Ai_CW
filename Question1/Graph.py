@@ -76,7 +76,7 @@ class Graph:
                     node.print_node()
                     print()
                     print()
-                return
+                return path_list
             neighbours = current_node.get_neighbours()
             for neighbour in neighbours:
                 if self.in_list(neighbour, self.closed_nodes):
