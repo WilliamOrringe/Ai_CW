@@ -8,6 +8,7 @@ class Node:
     def __lt__(self, other):
         return self.f < other.f
 
+
     def get_neighbours(self):
         index_of_blank = self.position.index(0)
         x = int(index_of_blank / 3)
