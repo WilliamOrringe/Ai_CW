@@ -8,14 +8,14 @@ class Image:
 
     def set_data_to_zero(self):
         values = []
-        for i in range(64):
+        for _ in range(64):
             values.append(0)
         return values
 
     def __add__(self, other):
         data_values = []
         for index in range(len(self.data)):
-            data_values.append(self.data[index] + other.data[index])
+            data_values.append(round(self.data[index] + other.data[index], 2))
         return Image(data_values)
 
     def __truediv__(self, other: int):
@@ -24,7 +24,7 @@ class Image:
 
         data_values = []
         for index in range(len(self.data)):
-            data_values.append(self.data[index] / other)
+            data_values.append(round(self.data[index] / other, 2))
         return Image(data_values)
 
     def give_coords(self):
@@ -34,6 +34,6 @@ class Image:
         x /= 32
         y = 0
         for j in range(32, 64):
-            y += self.data[i]
+            y += self.data[j]
         y /= 32
         return x, y

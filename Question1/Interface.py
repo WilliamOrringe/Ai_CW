@@ -90,6 +90,11 @@ class View(tk.Frame):
             self.data, self.iterations = setup(start_input, goal_input, euclidean)
             self.create_grid(0)
             self.buttons()
+        else:
+            euclidean = self.euclidean.get() == "Euclidean-Distance"
+            self.data, self.iterations = setup("724506831", "012345678", euclidean)
+            self.create_grid(0)
+            self.buttons()
 
     def validate_inputs(self, text: str):
         if len(text) == 9:
