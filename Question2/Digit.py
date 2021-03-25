@@ -1,3 +1,6 @@
+from time import sleep
+
+
 class Image:
     def __init__(self, data=None, cluster=None):
         if data is None:
@@ -15,16 +18,18 @@ class Image:
     def __add__(self, other):
         data_values = []
         for index in range(len(self.data)):
-            data_values.append(round(self.data[index] + other.data[index], 2))
+            data_values.append(round(self.data[index] + other.data[index], 4))
         return Image(data_values)
 
     def __truediv__(self, other: int):
-        if other == 0:
-            other += 1
+        other += 1
 
         data_values = []
         for index in range(len(self.data)):
-            data_values.append(round(self.data[index] / other, 2))
+            new_value = round((self.data[index] / other) / 10, 4)
+            if new_value > 1:
+                new_value = 1
+            data_values.append(new_value)
         return Image(data_values)
 
     def give_coords(self):

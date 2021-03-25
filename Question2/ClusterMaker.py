@@ -21,23 +21,24 @@ class ClusterMaker:
         for cluster in self.clusters_positions:
             self.clusters.append(Image(cluster))
 
-    def randomise_clusters(self):
-        cluster_positions = []
-        for _ in range(self.cluster_number):
-            cluster_positions.append([float((randint(0, 100)) / 100) for _ in range(64)])
-        return cluster_positions
-
     def randomise_clusters2(self):
         cluster_positions = []
-        for _ in range(self.cluster_number):
-            cluster_positions.append(random.choice(self.digits.data))
+        print(len(self.digits.target))
+        for i in range(self.cluster_number):
+            store = random.randint(0, self.cluster_number)
+            rand_number = self.digits.target[store]
+            print(rand_number)
+            while rand_number != i:
+                store = random.randint(0, self.cluster_number)
+                rand_number = self.digits.target[store]
+            cluster_positions.append(rand_number.data[store])
         return cluster_positions
 
     def distance(self, image: Image, cluster_location: Image):
         total = 0
         for index in range(len(image.data)):
-            total += (image.data[index] - cluster_location.data[index])**2
-        return math.sqrt(total)
+            total += abs(image.data[index] - cluster_location.data[index])
+        return total
 
     def distance_all(self, image: Image, cluster_locations: [Image]):
         distances = []
@@ -54,31 +55,32 @@ class ClusterMaker:
             image.cluster = self.distance_all(image, cluster_locations)
 
     def assign_cluster_list(self):
-        self.image_clusters = [[], [], [], [], [], [], [], [], [], []]
+        image_clusters = [[], [], [], [], [], [], [], [], [], []]
         for image in self.images:
-            self.image_clusters[image.cluster].append(image)
+            image_clusters[image.cluster].append(image)
+        return image_clusters
 
     def recalculate_clusters(self):
-        self.clusters = []
+        clusters = []
         for cluster in self.image_clusters:
             adder = Image()
             for image in cluster:
                 adder = adder + image
-            self.clusters.append(adder / len(cluster))
+            clusters.append(adder / len(cluster))
+        return clusters
 
     def k_means(self):
         for i in range(30):
-            temp_clusters = self.clusters
+            temp_clusters = []
+            for j in range(len(self.clusters)):
+                temp_clusters.append(self.clusters[j])
             self.distance_all_all(self.images, self.clusters)
-            self.assign_cluster_list()
-            self.recalculate_clusters()
-            if self.clusters == temp_clusters:
-                print("finished", i)
-                break
+            self.image_clusters = self.assign_cluster_list()
+            self.clusters = self.recalculate_clusters()
+            print(i)
         return self.clusters, self.image_clusters
 
 
 if __name__ == "__main__":
     cluster2 = ClusterMaker()
     goat = cluster2.k_means()
-
