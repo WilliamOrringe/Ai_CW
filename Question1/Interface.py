@@ -19,6 +19,9 @@ def validate_inputs(text: str):
 
 
 class View(tk.Frame):
+    """
+    Shows the interface.
+    """
     def __init__(self, data_list: [Node], iteration_count: int, move, master=None):
         """
         This initialises the frame for the interface.

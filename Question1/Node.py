@@ -20,14 +20,21 @@ def make_move(position, move: list):
     index_of_blank = position.index(0)  # Find index of blank space.
     if 0 <= move[0] < 3 and 0 <= move[1] < 3:  # Check if move is valid.
         temp_store = create_copy(position)  # Copy position.
-        temp_store2 = temp_store[move[0] * 3 + move[1]]  # Temporarily store old position.
-        temp_store[move[0] * 3 + move[1]] = temp_store[index_of_blank]  # Update non-blank.
+        temp_store2 = temp_store[
+            move[0] * 3 + move[1]
+        ]  # Temporarily store old position.
+        temp_store[move[0] * 3 + move[1]] = temp_store[
+            index_of_blank
+        ]  # Update non-blank.
         temp_store[index_of_blank] = temp_store2  # Update blank.
         return temp_store
     return None
 
 
 class Node:
+    """
+    Node class contains the board position for each node and g cost and f cost and the parent node.
+    """
     def __init__(self, position: list, lvl: int, f: float, parent: Node):
         """
         Initialise Node object.
@@ -57,12 +64,21 @@ class Node:
         index_of_blank = self.position.index(0)
         x = int(index_of_blank / 3)
         y = index_of_blank % 3
-        move_list = [[x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]]  # The four moves that the tile can go to.
+        move_list = [
+            [x + 1, y],
+            [x - 1, y],
+            [x, y + 1],
+            [x, y - 1],
+        ]  # The four moves that the tile can go to.
         neighbours = []
         for move in move_list:  # For all the moves.
-            neighbour = make_move(self.position, move)  # Make the new board state, also validates the move.
+            neighbour = make_move(
+                self.position, move
+            )  # Make the new board state, also validates the move.
             if neighbour is not None:  # Make sure the neighbour exists.
-                neighbours.append(Node(neighbour, self.level + 1, 0, self))  # Add the new node to a list of neighbours.
+                neighbours.append(
+                    Node(neighbour, self.level + 1, 0, self)
+                )  # Add the new node to a list of neighbours.
         return neighbours
 
     def print_node(self):
