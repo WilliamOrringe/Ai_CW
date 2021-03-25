@@ -35,7 +35,7 @@ class Node:
     """
     Node class contains the board position for each node and g cost and f cost and the parent node.
     """
-    def __init__(self, position: list, lvl: int, f: float, parent: Node):
+    def __init__(self, position: list, lvl: int, f: float, parent):
         """
         Initialise Node object.
         :param position: the board state of the node.
