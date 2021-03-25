@@ -179,7 +179,7 @@ class View(tk.Frame):
             self.buttons()
 
 
-def setup(start: String, goal: String, euclidean=False):
+def setup(start: str, goal: str, euclidean=False):
     """
     Handling the start, goal and distance function parameters and parsing this to the
     a_star function and getting the path and how many iterations this took back and returning it
